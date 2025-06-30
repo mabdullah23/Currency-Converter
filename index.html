@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Responsive Currency Converter</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    crossorigin="anonymous"
+  />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: peachpuff;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    header {
+      background-color: blueviolet;
+      color: white;
+      width: 100%;
+      padding: 10px 0;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .topic {
+      font-size: 2.2rem;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+      max-width: 600px;
+      background-color: orangered;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .amountdiv {
+      width: 100%;
+      text-align: center;
+    }
+
+    .amountdiv input {
+      width: 90%;
+      max-width: 300px;
+      padding: 10px;
+      font-size: 1rem;
+      margin-top: 5px;
+    }
+
+    .dropdowns-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      width: 100%;
+    }
+
+    .from, .to {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 45%;
+      min-width: 140px;
+    }
+
+    .from img,
+    .to img {
+      width: 64px;
+      height: auto;
+      margin-bottom: 5px;
+    }
+
+    select {
+      width: 100%;
+      padding: 8px;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 1rem;
+      background-color: blueviolet;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 90%;
+      max-width: 250px;
+    }
+
+    .fa-arrow-right-arrow-left {
+      font-size: 24px;
+      color: white;
+    }
+
+    /* ✅ Responsive styles for mobile */
+    @media (max-width: 480px) {
+      .topic {
+        font-size: 1.5rem;
+      }
+
+      .from, .to {
+        width: 100%;
+      }
+
+      .dropdowns-wrapper {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+
+footer{
+    background-color: black;
+    color:white;
+
+}
+.Result{
+    justify-content: center;
+    text-align: center;
+    background-color: blue;
+    width:90%;
+    color: aliceblue;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="topic">Currency Converter</h1>
+    </header>
+
+    <main>
+      <div class="amountdiv">
+        <p>Please Enter Amount</p>
+        <input type="number" placeholder="Enter here" id="amount" >
+      </div>
+
+      <div class="dropdowns-wrapper">
+        <div class="from">
+          <p>From</p>
+          <img class="imj1"  src="https://flagsapi.com/AF/flat/64.png"  alt="From Flag" >
+          <select class="country">
+            <option value="" disabled selected>-- Select a country --</option>
+
+          </select>
+        </div>
+
+        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+        <div class="to">
+          <p>To</p>
+          <img class="imj2" src="https://flagsapi.com/AF/flat/64.png" alt="To Flag"  >
+          <select class="Tocountry">
+            <option value="" disabled selected>-- Select a country --</option>
+
+          </select>
+        </div>
+      </div>
+
+      <button>Get Exchange rate</button>
+      <P class="Result">Result</P>
+    </main>
+  </div>
+<div></div>
+
+  <footer>
+        <p>&copy; 2025 Muhammad Abdullah | All Rights Reserved</p>
+  </footer>
+</body>
+
+<script>
+
+const countryList = {
+  AED: "AE",
+  AFN: "AF",
+  XCD: "AG",
+  ALL: "AL",
+  AMD: "AM",
+  ANG: "AN",
+  AOA: "AO",
+  AQD: "AQ",
+  ARS: "AR",
+  AUD: "AU",
+  AZN: "AZ",
+  BAM: "BA",
+  BBD: "BB",
+  BDT: "BD",
+  XOF: "BE",
+  BGN: "BG",
+  BHD: "BH",
+  BIF: "BI",
+  BMD: "BM",
+  BND: "BN",
+  BOB: "BO",
+  BRL: "BR",
+  BSD: "BS",
+  NOK: "BV",
+  BWP: "BW",
+  BYR: "BY",
+  BZD: "BZ",
+  CAD: "CA",
+  CDF: "CD",
+  XAF: "CF",
+  CHF: "CH",
+  CLP: "CL",
+  CNY: "CN",
+  COP: "CO",
+  CRC: "CR",
+  CUP: "CU",
+  CVE: "CV",
+  CYP: "CY",
+  CZK: "CZ",
+  DJF: "DJ",
+  DKK: "DK",
+  DOP: "DO",
+  DZD: "DZ",
+  ECS: "EC",
+  EEK: "EE",
+  EGP: "EG",
+  ETB: "ET",
+  EUR: "FR",
+  FJD: "FJ",
+  FKP: "FK",
+  GBP: "GB",
+  GEL: "GE",
+  GGP: "GG",
+  GHS: "GH",
+  GIP: "GI",
+  GMD: "GM",
+  GNF: "GN",
+  GTQ: "GT",
+  GYD: "GY",
+  HKD: "HK",
+  HNL: "HN",
+  HRK: "HR",
+  HTG: "HT",
+  HUF: "HU",
+  IDR: "ID",
+  ILS: "IL",
+  INR: "IN",
+  IQD: "IQ",
+  IRR: "IR",
+  ISK: "IS",
+  JMD: "JM",
+  JOD: "JO",
+  JPY: "JP",
+  KES: "KE",
+  KGS: "KG",
+  KHR: "KH",
+  KMF: "KM",
+  KPW: "KP",
+  KRW: "KR",
+  KWD: "KW",
+  KYD: "KY",
+  KZT: "KZ",
+  LAK: "LA",
+  LBP: "LB",
+  LKR: "LK",
+  LRD: "LR",
+  LSL: "LS",
+  LTL: "LT",
+  LVL: "LV",
+  LYD: "LY",
+  MAD: "MA",
+  MDL: "MD",
+  MGA: "MG",
+  MKD: "MK",
+  MMK: "MM",
+  MNT: "MN",
+  MOP: "MO",
+  MRO: "MR",
+  MTL: "MT",
+  MUR: "MU",
+  MVR: "MV",
+  MWK: "MW",
+  MXN: "MX",
+  MYR: "MY",
+  MZN: "MZ",
+  NAD: "NA",
+  XPF: "NC",
+  NGN: "NG",
+  NIO: "NI",
+  NPR: "NP",
+  NZD: "NZ",
+  OMR: "OM",
+  PAB: "PA",
+  PEN: "PE",
+  PGK: "PG",
+  PHP: "PH",
+  PKR: "PK",
+  PLN: "PL",
+  PYG: "PY",
+  QAR: "QA",
+  RON: "RO",
+  RSD: "RS",
+  RUB: "RU",
+  RWF: "RW",
+  SAR: "SA",
+  SBD: "SB",
+  SCR: "SC",
+  SDG: "SD",
+  SEK: "SE",
+  SGD: "SG",
+  SKK: "SK",
+  SLL: "SL",
+  SOS: "SO",
+  SRD: "SR",
+  STD: "ST",
+  SVC: "SV",
+  SYP: "SY",
+  SZL: "SZ",
+  THB: "TH",
+  TJS: "TJ",
+  TMT: "TM",
+  TND: "TN",
+  TOP: "TO",
+  TRY: "TR",
+  TTD: "TT",
+  TWD: "TW",
+  TZS: "TZ",
+  UAH: "UA",
+  UGX: "UG",
+  USD: "US",
+  UYU: "UY",
+  UZS: "UZ",
+  VEF: "VE",
+  VND: "VN",
+  VUV: "VU",
+  YER: "YE",
+  ZAR: "ZA",
+  ZMK: "ZM",
+  ZWD: "ZW",
+};
+
+
+
+let true1=false;
+let true2=false;
+let true3=false;
+
+
+let Answer=document.createElement("p");
+let btn = document.querySelector("button");
+let result=document.querySelector(".Result");
+let amount = document.querySelector("#amount");
+
+let img1 =document.querySelector(".imj1");
+let img2 =document.querySelector(".imj2")
+
+let drpdown=document.querySelector(".country");
+let drpdown2=document.querySelector(".Tocountry");
+
+
+
+for (let currency in countryList) {
+    let option=document.createElement("option")
+    let option2=document.createElement("option")
+
+//  console.log(currency);           // key (e.g., "USD")
+  console.log(currency,countryList[currency]); // value (e.g., "US")
+abc=countryList[currency];
+  option.value=countryList[currency];
+  option.text=currency;
+drpdown.appendChild(option);
+
+option2.value=countryList[currency];
+  option2.text=currency;
+
+drpdown2.append(option2);
+  
+
+
+}
+
+
+
+Answer.style.justifyContent="center";
+Answer.style.backgroundColor="green"
+width="100%";
+
+
+
+//.....function of API.................////
+
+async function currency(a, b, c) {
+  console.log(a, b, c);
+
+  let k = "";
+  let p = "";
+
+  for (let currency in countryList) {
+    if (a === countryList[currency]) {
+      k = currency; // currency codes must be lowercase in this API
+    }
+
+    if (b === countryList[currency]) {
+      p = currency;
+    }
+  }
+
+  console.log(k, p, c);
+
+  const url = `https://v6.exchangerate-api.com/v6/0263382c3680d83653e83ca1/latest/${k}`;
+
+  try {
+    const response = await fetch(url);
+
+    const data = await response.json();
+    let rates = data.conversion_rates;
+    console.log(rates[p]);
+    let myrate=rates[p]*c;
+    result.innerText= myrate;
+  } catch (error) {
+    console.error("Conversion failed:", error);
+  }
+}
+
+
+
+amount.addEventListener("input",()=>{
+    true1=true;
+ console.log(amount.value);
+})
+
+
+drpdown.addEventListener("change",()=>{
+     true3=true;
+console.log("changed");
+img1.src="https://flagsapi.com/"+drpdown.value+"/flat/64.png"
+})
+
+
+drpdown2.addEventListener("change",()=>{
+true2=true;
+console.log("changed");
+img2.src="https://flagsapi.com/"+drpdown2.value+"/flat/64.png"
+})
+
+
+
+btn.addEventListener("click", async ()=>{
+if (true1==true && true2==true && true3 ==true && amount.value >=0) {
+  currency(drpdown.value,drpdown2.value,amount.value);
+} 
+
+
+else {
+ result.innerText="Please select Required Domains";
+}
+})
+
+
+</script>
+
+
+
+
+</html>
